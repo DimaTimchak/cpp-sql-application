@@ -1,0 +1,6 @@
+.vs/
+Dependencies/boost_1_81_0/**/
+Dependencies/Crow/**/
+Dependencies/mysql-connector-c++-8.0.32-winx64/**/
+Debug/
+x64/
