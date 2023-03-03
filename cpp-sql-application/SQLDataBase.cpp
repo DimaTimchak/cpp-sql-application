@@ -1,5 +1,25 @@
 #include "SQLDataBase.h"
 
+std::string SQLDataBase::_loadConfig()
+{
+	std::ifstream file(_configureFilePath);
+	//file.unsetf(std::ios_base::skipws);
+	std::ostringstream tmp;
+	std::string confInternals = "";
+	std::string sym;
+
+	if (file) {
+		for (file >> sym; !file.eof(); file >> sym) {
+			tmp << file.rdbuf();
+		}
+		confInternals = tmp.str();
+	}
+	else {
+		throw std::invalid_argument(_configureFilePath + " file not found");
+	}
+	std::cout << confInternals;
+	return confInternals;
+}
 
 std::vector<std::vector<std::string>> SQLDataBase::_parseJsonTable(crow::json::wvalue dbTableInternals)
 {
