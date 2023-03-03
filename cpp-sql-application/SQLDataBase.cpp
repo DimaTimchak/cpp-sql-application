@@ -10,7 +10,7 @@ std::string SQLDataBase::_loadConfig()
 	std::string sym;
 
 	if (file) {
-		for (file >> sym; !file.eof(); file >> sym) {
+		for (; !file.eof(); file >> sym) {
 			tmp << file.rdbuf();
 		}
 		confInternals = tmp.str();
@@ -18,7 +18,6 @@ std::string SQLDataBase::_loadConfig()
 	else {
 		throw std::invalid_argument(_configureFilePath + " file not found");
 	}
-	std::cout << confInternals;
 	return confInternals;
 }
 std::vector<std::vector<std::string>> SQLDataBase::_parseJsonTable(crow::json::wvalue dbTableInternals)
