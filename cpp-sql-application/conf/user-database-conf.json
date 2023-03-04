@@ -6,6 +6,9 @@
   "dbPassword": "",
   "dbSchemaName": "People",
   "dbTables": [
-    ["UserTable", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ]
+    [ "UserTable", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ],
+ [ "UserTable1", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ],
+	["UsrTable1", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ]
+   
   ]
 }

@@ -28,7 +28,7 @@ std::vector<std::vector<std::string>> SQLDataBase::_parseJsonTable(crow::json::w
 		for (int j = 0; j < crow::json::load(dbTableInternals[i].dump()).size(); j++) {
 			// convert raw string to json parser then divides it into parts 
 			// and assigns them to the corresponding elements of the array
-			tempTableArr[i].push_back(std::string((crow::json::load(dbTableInternals[i].dump())[j]).s()) + " ");
+			tempTableArr[i].push_back(std::string((crow::json::load(dbTableInternals[i].dump())[j]).s()));
 
 		}
 	}
@@ -103,6 +103,7 @@ int SQLDataBase::initDataBase() {
 	{
 		throw std::invalid_argument("cannot connect to Data base, chek your internet conections and correctness of the configuration file!");
 	}
+
 	/*mysqlx::Row row;
 	
 	mysqlx::SqlResult resp = _sqlSession->sql(std::string("SHOW DATABASES")).execute();
@@ -119,30 +120,90 @@ int SQLDataBase::initDataBase() {
 			result = 1;
 		}
 	}*/
-	mysqlx::Row row;
+	
+	if (!isDatabaseExist()) _sqlSession->sql(std::string("CREATE DATABASE ") + _dbSchemaName).execute();
+	_sqlSession->sql(std::string("USE ")+ _dbSchemaName).execute();
+	std::vector<int> createIndex = isTableExist();
+	for (int i = 0; i < createIndex.size(); i++)
+	{
+		_sqlSession->sql(std::string("CREATE TABLE ") + _dbTables[createIndex[i]][0] + "(" + _getConfParam(_dbTables[createIndex[i]]) + ")").execute();
+	}
+	createEntity();
+	return 0;
 
-	mysqlx::SqlResult resp = _sqlSession->sql(std::string("SHOW DATABASES")).execute();
-	bool isdbFound = 0;
+}
+
+bool SQLDataBase::isDatabaseExist()
+{
+		mysqlx::Row row;
+		mysqlx::SqlResult resp = _sqlSession->sql(std::string("SHOW DATABASES ")).execute();
+		bool isdbFound = 0;
+		while (row = resp.fetchOne())
+		{
+			if (std::string(row[0]) == _dbSchemaName)
+				isdbFound = 1;
+		}
+	return isdbFound;
+}
+
+std::vector<int> SQLDataBase::isTableExist()
+{
+	mysqlx::Row row;
+	mysqlx::SqlResult resp = _sqlSession->sql(std::string("SHOW TABLES ")).execute();
+	std::vector<int> index;
+	std::vector<std::string> getTable;
 	while (row = resp.fetchOne())
 	{
-		if (std::string(row[0]) == _dbSchemaName)
-			isdbFound = 1;
+		getTable.push_back(std::string(row[0]));
 	}
-	if (!isdbFound)
+	
+	
+	for (int i = 0; i < _dbTables.size(); i++)
 	{
-		_sqlSession->sql(std::string("CREATE DATABASE ") + _dbSchemaName).execute();
+		bool isIdentical = 0;
+		for (int j = 0; j < getTable.size(); j++)
+		{
+			if (getTable[j].compare(_dbTables[i][0]) == 0)
+			{
+				isIdentical = 1;
+			}
+		}
+		if (isIdentical == 0)
+		{
+			index.push_back(i);
+		}
 		
 	}
-	_sqlSession->sql(std::string("USE ")+ _dbSchemaName).execute();
 
-	_sqlSession->sql(std::string("CREATE TABLE ") + _dbTables[0][0] +  "(" + _getConfParam(_dbTables[0]) + ")").execute();
+	return index;
+}
 
-	/*for (int i = 0; i < _dbTables.size(); i++)
+std::string SQLDataBase::createEntity()
+{
+	for (int i = 0; i < _dbTables.size(); i++)
 	{
-		_sqlSession->sql(std::string("CREATE TABLE") + _dbTables[0][0]).execute();
-
+		std::vector<std::string> parsedNames;
+		for (int j = 1; j < _dbTables[i].size(); j++)
+		{
+			parsedNames.push_back(_dbTables[i][j].substr(0, _dbTables[i][j].find(" ")));
+		}
+		for (int j = 0; j < _dbTables.size(); j++)
+		{
+			
+			_sqlSession->sql(std::string("INSERT INTO ") + _dbTables[i][0] + "(" + _getConfParam(parsedNames) + ")" + ("VALUE ") + "(" + /*value*/ +")").execute();
+		}
+			
 	}
-	return 0;*/
+}
+
+std::string SQLDataBase::updateEntity()
+{
+	_sqlSession->sql(std::string("UPDATE ") + /*"Table name "*/ + "SET " + /*"Atribute name"*/ + "= " + /*"Value in table "*/ + "WHERE " /*"Atribute name"*/ + "= " + /*"new value*/).execute();
+}
+
+std::string SQLDataBase::deleteEntity()
+{
+	_sqlSession->sql(std::string("DELETE FROM ") + /*"NameTAble"*/ +"WHERE " + /*Atribute name*/ + "= " + /*value*/).execute();
 }
 
 SQLDataBase::~SQLDataBase()
