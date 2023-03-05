@@ -198,12 +198,14 @@ std::string SQLDataBase::createEntity()
 
 std::string SQLDataBase::updateEntity()
 {
-	_sqlSession->sql(std::string("UPDATE ") + /*"Table name "*/ + "SET " + /*"Atribute name"*/ + "= " + /*"Value in table "*/ + "WHERE " /*"Atribute name"*/ + "= " + /*"new value*/).execute();
+	//_sqlSession->sql(std::string("UPDATE ") + /*"Table name "*/ + "SET " + /*"Atribute name"*/ + "= " + /*"Value in table "*/ + "WHERE " /*"Atribute name"*/ + "= " + /*"new value*/).execute();
+	return std::string();
 }
 
 std::string SQLDataBase::deleteEntity()
 {
-	_sqlSession->sql(std::string("DELETE FROM ") + /*"NameTAble"*/ +"WHERE " + /*Atribute name*/ + "= " + /*value*/).execute();
+	//_sqlSession->sql(std::string("DELETE FROM ") + /*"NameTAble"*/ +"WHERE " + /*Atribute name*/ + "= " + /*value*/).execute();
+	return std::string();
 }
 
 SQLDataBase::~SQLDataBase()

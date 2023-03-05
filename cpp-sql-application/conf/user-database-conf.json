@@ -6,9 +6,23 @@
   "dbPassword": "",
   "dbSchemaName": "People",
   "dbTables": [
-    [ "UserTable", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ],
- [ "UserTable1", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ],
-	["UsrTable1", "id INT PRIMARY KEY AUTO_INCREMENT", "name VARCHAR(20) NOT NULL", "email VARCHAR(30) NOT NULL" ]
-   
+    [
+      "UserTable",
+      "id INT PRIMARY KEY AUTO_INCREMENT",
+      "name VARCHAR(20) NOT NULL",
+      "email VARCHAR(30) NOT NULL"
+    ],
+    [
+      "CARS TABLE",
+      "id INT PRIMARY KEY AUTO_INCREMENT",
+      "car VARCHAR(20) NOT NULL",
+      "email VARCHAR(30) NOT NULL"
+    ],
+    [
+      "SOUND TABLE",
+      "id INT PRIMARY KEY AUTO_INCREMENT",
+      "sound VARCHAR(20) NOT NULL",
+      "email VARCHAR(30) NOT NULL"
+    ]
   ]
 }

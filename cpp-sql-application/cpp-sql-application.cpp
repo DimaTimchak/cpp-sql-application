@@ -173,14 +173,14 @@ int bynSech(int *arr,int size,int target_value) {
 
 int main()
 {
-    try {
-        SQLDataBase obje;
-        obje.initDataBase();
-    }
-    catch (std::exception& e){
-        std::cerr<<"\nError occurd: " << e.what()<<"\n";
-        return 1;
-    }
+    //try {
+    //    SQLDataBase obje;
+    //    obje.initDataBase();
+    //}
+    //catch (std::exception& e){
+    //    std::cerr<<"\nError occurd: " << e.what()<<"\n";
+    //    return 1;
+    //}
 
 
 
@@ -195,7 +195,32 @@ int main()
     return home_page.render();
         });
    
+   
  
+    CROW_ROUTE(app, "/get/config").methods(crow::HTTPMethod::Get)
+        ([](const crow::request& req) {
+        std::ifstream file("conf/user-database-conf.json");
+    //file.unsetf(std::ios_base::skipws);
+    std::ostringstream tmp;
+    std::string confInternals = "";
+    std::string sym;
+
+    if (file) {
+        for (; !file.eof(); file >> sym) {
+            tmp << file.rdbuf();
+        }
+        confInternals = tmp.str();
+    }
+
+    std::string responseData = (crow::json::wvalue(crow::json::load(confInternals))["dbTables"].dump());
+    crow::response res;
+    res.add_header("Access-Control-Allow-Origin", "*");
+    res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    res.body=(std::move(responseData));
+    return res;
+            });
+
+
     CROW_ROUTE(app, "/post").methods(crow::HTTPMethod::Post)
         ([](const crow::request& req) {
         crow::json::wvalue x = crow::json::load(req.body);
@@ -212,14 +237,7 @@ int main()
 
     CROW_ROUTE(app, "/get").methods(crow::HTTPMethod::Get)
         ([]() {
-        
-        std::ostringstream os;
-    for (int i = 0; i < 50; i++) {
-        if(vectorArr[i]!=""){
-        os << vectorArr[i]<<" ";
-        }
-    }
-    return crow::response{ os.str()};
+    return crow::response{ std::string("get")};
             });
 
   
@@ -260,7 +278,7 @@ int main()
     return crow::response{ os.str() };
             });
 	
-	app.port(18080).multithreaded().run();
+	app.port(3000).multithreaded().run();
 	cout << "ended";
 	return 0;
 }
