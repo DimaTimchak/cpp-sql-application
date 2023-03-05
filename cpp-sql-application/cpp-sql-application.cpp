@@ -6,7 +6,7 @@ extern "C" {}
 #include <boost/asio.hpp>
 #include "crow_all.h"
 #include "SQLDataBase.h" //don use this call ins
-
+#include "BackendRouter .h"
 
 using ::std::cout;
 using ::std::endl;
@@ -181,104 +181,14 @@ int main()
     //    std::cerr<<"\nError occurd: " << e.what()<<"\n";
     //    return 1;
     //}
-
-
-
-
-    std::vector<std::string> responseArr;
-   // databaseExample();
     std::cout << "\n\n--- ---\n";
 	crow::SimpleApp app; //define your crow application
-    CROW_ROUTE(app, "/")([]() {
-        // crow::mustache::context view_context;
-        auto home_page = crow::mustache::load(R"(index.html)");
-    return home_page.render();
-        });
-   
-   
- 
-    CROW_ROUTE(app, "/get/config").methods(crow::HTTPMethod::Get)
-        ([](const crow::request& req) {
-        std::ifstream file("conf/user-database-conf.json");
-    //file.unsetf(std::ios_base::skipws);
-    std::ostringstream tmp;
-    std::string confInternals = "";
-    std::string sym;
-
-    if (file) {
-        for (; !file.eof(); file >> sym) {
-            tmp << file.rdbuf();
-        }
-        confInternals = tmp.str();
-    }
-
-    std::string responseData = (crow::json::wvalue(crow::json::load(confInternals))["dbTables"].dump());
-    crow::response res;
-    res.add_header("Access-Control-Allow-Origin", "*");
-    res.add_header("Access-Control-Allow-Headers", "Content-Type");
-    res.body=(std::move(responseData));
-    return res;
-            });
-
-
-    CROW_ROUTE(app, "/post").methods(crow::HTTPMethod::Post)
-        ([](const crow::request& req) {
-        crow::json::wvalue x = crow::json::load(req.body);
-        if (!x.size())return crow::response(400);
-        std::string resp= std::to_string(x.keys().size());
-        for (int i = 0; i < stoi(resp); i++) {
-            std::string response = x[x.keys()[i]].dump();
-            std::cout << i << ": " << response << endl;
-            vectorArr[i] = response;
-            
-        }
-        return crow::response{("\nanswer: ")+resp};
-            });
-
-    CROW_ROUTE(app, "/get").methods(crow::HTTPMethod::Get)
-        ([]() {
-    return crow::response{ std::string("get")};
-            });
-
+    BackendRouter routerApp(8080);
+    routerApp.initAllRoutes();
+    routerApp.runServer();
   
-
-    CROW_ROUTE(app, "/params")
-        ([](const crow::request& req) {
-        std::ostringstream os;
-
-   
-    // To get a simple string from the url params
-    // To see it in action /params?foo='blabla'
-    os << "Params: " << req.url_params << "\n\n";
-    os << "The key 'foo' was " << (req.url_params.get("foo") == nullptr ? "not " : "") << "found.\n";
-
-    // To get a double from the request
-    // To see in action submit something like '/params?pew=42'
-    if (req.url_params.get("pew") != nullptr) {
-        double countD = boost::lexical_cast<double>(req.url_params.get("pew"));
-        os << "The value of 'pew' is " << countD << '\n';
-    }
-
-    // To get a list from the request
-    // You have to submit something like '/params?count[]=a&count[]=b' to have a list with two values (a and b)
-    auto count = req.url_params.get_list("count");
-    os << "The key 'count' contains " << count.size() << " value(s).\n";
-    for (const auto& countVal : count) {
-        os << " - " << countVal << '\n';
-    }
-
-    // To get a dictionary from the request
-    // You have to submit something like '/params?mydict[a]=b&mydict[abcd]=42' to have a list of pairs ((a, b) and (abcd, 42))
-    auto mydict = req.url_params.get_dict("mydict");
-    os << "The key 'dict' contains " << mydict.size() << " value(s).\n";
-    for (const auto& mydictVal : mydict) {
-        os << " - " << mydictVal.first << " -> " << mydictVal.second << '\n';
-    }
-
-    return crow::response{ os.str() };
-            });
 	
-	app.port(3000).multithreaded().run();
+	//app.port(3000).multithreaded().run();
 	cout << "ended";
 	return 0;
 }

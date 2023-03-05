@@ -21,12 +21,27 @@
     <ClCompile Include="SQLDataBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BackendRouter .cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBDutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackendDataBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SQLDataBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BackendCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BackendRouter .h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBDutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
