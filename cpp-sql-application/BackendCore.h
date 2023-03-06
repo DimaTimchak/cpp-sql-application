@@ -17,4 +17,5 @@ public:
 	,std::string configFilePath = "conf/user-database-conf.json"
 	, int serverPort = 8080);
 	void launchBackends();
+	void handleAddEntity(std::string requestData);
 };

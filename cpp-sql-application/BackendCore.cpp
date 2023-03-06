@@ -24,3 +24,10 @@ void BackendCore::launchBackends()
 	_backendRouter->runServer();
 	
 }
+
+void BackendCore::handleAddEntity(std::string requestData)
+{
+
+	std::cout <<"\nIn handle: " << requestData<<"\n\n";
+	//_backendDataBase->createEntity()
+}

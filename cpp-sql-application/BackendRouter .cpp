@@ -72,18 +72,17 @@ void BackendRouter::initAllRoutes()
             });
     //Gets an object to add to the database
     CROW_ROUTE(app, "/addEntity").methods(crow::HTTPMethod::Post)
-        ([](const crow::request& req) {
+        ([&](const crow::request& req) {
         crow::json::wvalue x = crow::json::load(req.body);
-
-
+    
     crow::response res;
     res.add_header("Access-Control-Allow-Origin", "*");
     res.add_header("Access-Control-Allow-Headers", "Content-Type");
     res.body = (200);
     if (!x.size())res.body = (400);
-
     std::string resp = (x.dump());
-    std::cout << "\nresponse: " << resp << "\n";
+    _corePtr->handleAddEntity(resp);
+    
     return res;
             });
 }
