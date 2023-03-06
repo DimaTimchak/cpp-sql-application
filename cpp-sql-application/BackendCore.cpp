@@ -1,6 +1,5 @@
 #include "BackendCore.h"
 
-
 BackendCore::BackendCore(std::unique_ptr<BackendDataBase> bdb
 	,std::string configFilePath
 	,int serverPort)
@@ -26,8 +25,31 @@ void BackendCore::launchBackends()
 }
 
 void BackendCore::handleAddEntity(std::string requestData)
-{
+{	
+	crow::json::wvalue parsedTemp= (crow::json::load(requestData));
+	std::vector <std::string> NotNull, parsedKey;
+	std::vector <std::string> parsedvalue;
+	std::string value = "", key = "", TableName;
+	for (int i = 1; i < parsedTemp.size(); i++)
+	{
+		if (std::string(parsedTemp[i].dump()) != "null") NotNull.push_back (parsedTemp[i].dump());
+	}
+	TableName = parsedTemp[0].dump();
+	
+	for (int i = 0; i < NotNull.size(); i++)
+	{
+		parsedKey.push_back(crow::json::load(NotNull[i])["who"].s());
+		parsedvalue.push_back(crow::json::load(NotNull[i])["what"].s());
+	}
 
-	std::cout <<"\nIn handle: " << requestData<<"\n\n";
-	//_backendDataBase->createEntity()
+	for (int i = 0; i < parsedKey.size(); i++)
+	{
+		if (parsedKey.size() - 1 != i) key += CBDutils::GetStringBeforeSpace(parsedKey[i]) + ", ";
+		else
+			key += CBDutils::GetStringBeforeSpace(parsedKey[i]);
+		if (parsedvalue.size() - 1 != i) value += "'" + CBDutils::GetStringBeforeSpace(parsedvalue[i]) + "', ";
+		else
+			value += "'" + CBDutils::GetStringBeforeSpace(parsedvalue[i]) + "'";
+	}
+	_backendDataBase->createEntity(key,value,CBDutils::cutQuotes(TableName));
 }

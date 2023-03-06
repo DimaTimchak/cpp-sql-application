@@ -18,7 +18,7 @@ class BackendDataBase {
 	virtual bool isDatabaseExist() = 0; // cheks is database configured and ready to use (for MySQL it cheks is coresponding scheme/structure exist )
 	virtual void setPath(std::string configureFilePath)=0;
 	//std::string getDataBaseName() { return _dbName; } 
-	virtual std::string createEntity() = 0; 
+	virtual void createEntity(std::string atribute, std::string value, std::string TableName) = 0; 
 	//virtual std::string readEntity() = 0;
 	virtual std::string updateEntity() = 0;
 	virtual std::string deleteEntity() = 0;

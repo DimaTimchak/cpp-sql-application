@@ -32,3 +32,9 @@ int CBDutils::findCorespondingIndexInAppFromValueInMap(std::vector<std::string> 
 
 	return 0;
 }
+std::string CBDutils::GetStringBeforeSpace(std::string data)
+{
+	std::string temp;
+	temp = data.substr(0, data.find(" "));
+	return temp;
+}

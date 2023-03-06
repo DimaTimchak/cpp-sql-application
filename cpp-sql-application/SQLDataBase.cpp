@@ -64,8 +64,6 @@ int SQLDataBase::initDataBase() {
 		throw std::runtime_error(std::string("Template table is filled in incorrectly: ") + e.what());
 	}
 
-	//	std::vector<std::string>keys= jsonConfInternals.keys();
-
 	_dbName = jsonConfInternals["dbName"].dump() != "null" //TODO (refactor): move to the corresponding "initConfigParams" function
 		? jsonConfInternals["dbName"].dump().substr(1, jsonConfInternals["dbName"].dump().size() - 2)
 		: "undefined";
@@ -108,22 +106,6 @@ int SQLDataBase::initDataBase() {
 		throw std::invalid_argument("cannot connect to Data base, chek your internet conections and correctness of the configuration file!");
 	}
 
-	/*mysqlx::Row row;
-	
-	mysqlx::SqlResult resp = _sqlSession->sql(std::string("SHOW DATABASES")).execute();
-	std::vector<std::string> GetAllBase;
-	while (row = resp.fetchOne())
-	{
-		GetAllBase.push_back (std::string(row[0]));
-	}
-	for (int i = 0; i < GetAllBase.size(); i++)
-	{
-		bool result;
-		if (GetAllBase[i] == _dbTables[0][0])
-		{
-			result = 1;
-		}
-	}*/
 	
 	if (!isDatabaseExist()) _sqlSession->sql(std::string("CREATE DATABASE ") + _dbSchemaName).execute();
 	_sqlSession->sql(std::string("USE ")+ _dbSchemaName).execute();
@@ -132,7 +114,6 @@ int SQLDataBase::initDataBase() {
 	{
 		_sqlSession->sql(std::string("CREATE TABLE ") + _dbTables[createIndex[i]][0] + "(" + _getConfParam(_dbTables[createIndex[i]]) + ")").execute();
 	}
-	createEntity();
 	return 0;
 
 }
@@ -178,27 +159,12 @@ std::vector<int> SQLDataBase::isTableExist()
 		}
 		
 	}
-
 	return index;
 }
 
-std::string SQLDataBase::createEntity()
+void SQLDataBase::createEntity(std::string atribute, std::string value, std::string TableName)
 {
-	//for (int i = 0; i < _dbTables.size(); i++)
-	//{
-	//	std::vector<std::string> parsedNames;
-	//	for (int j = 1; j < _dbTables[i].size(); j++)
-	//	{
-	//		parsedNames.push_back(_dbTables[i][j].substr(0, _dbTables[i][j].find(" ")));
-	//	}
-	//	for (int j = 0; j < _dbTables.size(); j++)
-	//	{
-	//		
-	//		_sqlSession->sql(std::string("INSERT INTO ") + _dbTables[i][0] + "(" + _getConfParam(parsedNames) + ")" + ("VALUE ") + "(" + /*value*/ +")").execute();
-	//	}
-	//		
-	//}
-	return std::string();
+	_sqlSession->sql (std::string("INSERT INTO ") + TableName + "(" + atribute + ")" + ("VALUE ") + "(" + value + ")").execute();	
 }
 
 std::string SQLDataBase::updateEntity()
