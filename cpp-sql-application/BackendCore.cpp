@@ -29,6 +29,7 @@ std::string BackendCore::handleReadTableAttr(std::string tableName)
 	//_backendDataBase->readEntity() 
 	//Todo: readEntity �� ����� �� �� ������ �� ������
 	//���� ������� ��������� ��� ����� ��� JSON ��'��� ���� � ����� ������ �� �������� ������
+	return std::string();
  }
  
 void BackendCore::handleAddEntity(std::string requestData)

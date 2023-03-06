@@ -78,8 +78,10 @@ void BackendRouter::initAllRoutes()
         crow::json::wvalue x = crow::json::load(req.body);
     
     crow::response res;
-    res.add_header("Access-Control-Allow-Origin", "*");
-    res.add_header("Access-Control-Allow-Headers", "Content-Type");
+    int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
+    if (corespondingIndex != _avalibleOrigins.size()) {
+        res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
+    }
     res.body = (200);
     if (!x.size())res.body = (400);
     std::string resp = (x.dump());
