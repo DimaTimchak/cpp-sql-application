@@ -20,5 +20,7 @@ BackendCore::BackendCore(std::unique_ptr<BackendDataBase> bdb
 }
 void BackendCore::launchBackends()
 {
+	_backendDataBase->initDataBase();
 	_backendRouter->runServer();
+	
 }

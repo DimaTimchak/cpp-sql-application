@@ -11,24 +11,24 @@
       "id INT PRIMARY KEY AUTO_INCREMENT",
       "name VARCHAR(20) NOT NULL",
       "email VARCHAR(30) NOT NULL",
-      "personal-info VARCHAR(50) NOT NULL",
+      "personalInfo VARCHAR(50) NOT NULL",
       "age INT NOT NULL",
       "state VARCHAR(30) NOT NULL"
     ],
     [
-      "CARS TABLE",
+      "CarsTable",
       "id INT PRIMARY KEY AUTO_INCREMENT",
       "car VARCHAR(20) NOT NULL",
       "email VARCHAR(30) NOT NULL"
     ],
     [
-      "SOUND TABLE",
+      "SoundTable",
       "id INT PRIMARY KEY AUTO_INCREMENT",
       "sound VARCHAR(20) NOT NULL",
       "email VARCHAR(30) NOT NULL"
     ],
     [
-      "Video TABLE",
+      "VideoTable",
       "id INT PRIMARY KEY AUTO_INCREMENT",
       "Video VARCHAR(20) NOT NULL",
       "email VARCHAR(30) NOT NULL"

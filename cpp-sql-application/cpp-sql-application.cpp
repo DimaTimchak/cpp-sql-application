@@ -174,14 +174,14 @@ int bynSech(int *arr,int size,int target_value) {
 
 int main()
 {
-    //try {
-    //    SQLDataBase obje;
-    //    obje.initDataBase();
-    //}
-    //catch (std::exception& e){
-    //    std::cerr<<"\nError occurd: " << e.what()<<"\n";
-    //    return 1;
-    //}
+    try {
+        SQLDataBase obje;
+        obje.initDataBase();
+    }
+    catch (std::exception& e){
+        std::cerr<<"\nError occurd: " << e.what()<<"\n";
+        return 1;
+    }
 
     std::cout << "\n\n--- ---\n";
     BackendCore backendApp(std::make_unique<SQLDataBase>(), "conf/user-database-conf.json",3000);

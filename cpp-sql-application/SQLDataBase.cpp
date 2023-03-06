@@ -184,20 +184,21 @@ std::vector<int> SQLDataBase::isTableExist()
 
 std::string SQLDataBase::createEntity()
 {
-	for (int i = 0; i < _dbTables.size(); i++)
-	{
-		std::vector<std::string> parsedNames;
-		for (int j = 1; j < _dbTables[i].size(); j++)
-		{
-			parsedNames.push_back(_dbTables[i][j].substr(0, _dbTables[i][j].find(" ")));
-		}
-		for (int j = 0; j < _dbTables.size(); j++)
-		{
-			
-			_sqlSession->sql(std::string("INSERT INTO ") + _dbTables[i][0] + "(" + _getConfParam(parsedNames) + ")" + ("VALUE ") + "(" + /*value*/ +")").execute();
-		}
-			
-	}
+	//for (int i = 0; i < _dbTables.size(); i++)
+	//{
+	//	std::vector<std::string> parsedNames;
+	//	for (int j = 1; j < _dbTables[i].size(); j++)
+	//	{
+	//		parsedNames.push_back(_dbTables[i][j].substr(0, _dbTables[i][j].find(" ")));
+	//	}
+	//	for (int j = 0; j < _dbTables.size(); j++)
+	//	{
+	//		
+	//		_sqlSession->sql(std::string("INSERT INTO ") + _dbTables[i][0] + "(" + _getConfParam(parsedNames) + ")" + ("VALUE ") + "(" + /*value*/ +")").execute();
+	//	}
+	//		
+	//}
+	return std::string();
 }
 
 std::string SQLDataBase::updateEntity()
