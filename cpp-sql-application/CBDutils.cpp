@@ -28,6 +28,7 @@ std::string CBDutils::cutQuotes(std::string inputMessage)
 int CBDutils::findCorespondingIndexInAppFromValueInMap(std::vector<std::string> valuesArr, crow::ci_map _map, std::string desiredKey)
 {
 	const std::pair<const std::string, std::string> para = *_map.find(desiredKey);
+
 	std::vector<std::string> parsedValuesArr;
 	for (int i = 0; i < valuesArr.size(); i++) {
 		if (para.second.substr(0,8) == "https://" && valuesArr[i].substr(0, 8) != "https://") {
@@ -48,5 +49,11 @@ int CBDutils::findCorespondingIndexInAppFromValueInMap(std::vector<std::string> 
 		}
 	}
 	
-	return valuesArr.size();
+	return valuesArr.size();	
+}
+std::string CBDutils::GetStringBeforeSpace(std::string data)
+{
+	std::string temp;
+	temp = data.substr(0, data.find(" "));
+	return temp;
 }
