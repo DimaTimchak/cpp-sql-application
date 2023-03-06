@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackendCore.cpp" />
     <ClCompile Include="BackendRouter .cpp" />
     <ClCompile Include="CBDutils.cpp" />
     <ClCompile Include="SQLDataBase.cpp" />
@@ -151,7 +152,7 @@
   <ItemGroup>
     <ClInclude Include="BackendCore.h" />
     <ClInclude Include="BackendDataBase.h" />
-    <ClInclude Include="BackendRouter .h" />
+    <ClInclude Include="BackendRouter.h" />
     <ClInclude Include="CBDutils.h" />
     <ClInclude Include="SQLDataBase.h" />
   </ItemGroup>

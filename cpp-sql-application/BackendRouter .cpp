@@ -1,13 +1,14 @@
-#include "BackendRouter .h"
+#include "BackendRouter.h"
 
-BackendRouter::BackendRouter():_serverPort(8080)
+
+
+
+BackendRouter::BackendRouter(BackendCore* corePtr, int serverPort, std::vector<std::string> avalibleOrigins)
+    : _corePtr(corePtr), _serverPort(serverPort), _avalibleOrigins(avalibleOrigins)
 {
+    //_baseResponse.headers.clear();
 }
 
-BackendRouter::BackendRouter(int serverPort):_serverPort (serverPort)
-{
-    
-}
 
 void BackendRouter::initAllRoutes()
 {
@@ -35,7 +36,7 @@ void BackendRouter::initAllRoutes()
         }
         confInternals = tmp.str();
     }
-
+    
     std::string responseData = (crow::json::wvalue(crow::json::load(confInternals))["dbTables"].dump());
     crow::response res;
     res.add_header("Access-Control-Allow-Origin", "*");
@@ -48,16 +49,23 @@ void BackendRouter::initAllRoutes()
     CROW_ROUTE(app, "/get/tableInfo").methods(crow::HTTPMethod::Get)
         ([](const crow::request& req) {
         crow::response res;
-    res.add_header("Access-Control-Allow-Origin", "http://localhost:5173");
-    res.add_header("Access-Control-Allow-Headers", "Content-Type");
 
+    //zxczxc
+    std::vector<std::string> zxc;
+  //  CBDutils::findCorespondingIndexInAppFromValueInMap(, req.headers, "Origin");
+    //zxczxc
+
+
+    std::cout << "\nURL: " << req.raw_url<<"\n";
+   res.add_header("Access-Control-Allow-Origin", "http://localhost:5173");
+   // res.add_header("Access-Control-Allow-Headers", "Content-Type");
     std::string tableValue = req.url_params.get("table");
     if (tableValue == "") {
         res.body = 404;
     }
     else {
         std::cout << "\nTable value: " << tableValue << "\n";
-        res.body = "Table Blank";
+        res.body = tableValue;
         return res;
     }
 
@@ -80,7 +88,20 @@ void BackendRouter::initAllRoutes()
             });
 }
 
+void BackendRouter::setOriginsArr(std::vector<std::string> avalibleOrigins)
+{
+    _avalibleOrigins = avalibleOrigins;
+}
+
+void BackendRouter::setBaseResponseHeaders(std::vector<std::string> originsArr)
+{
+    for (int i = 0; i < originsArr.size(); i++) {
+        _baseResponse.add_header("Access-Control-Allow-Origin", originsArr[i]);
+    }
+}
+
 void BackendRouter::runServer()
 {
+    initAllRoutes();
     app.port(_serverPort).multithreaded().run();
 }

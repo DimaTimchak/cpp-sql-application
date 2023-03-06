@@ -18,6 +18,7 @@ public:
 	SQLDataBase(std::string configureFilePath = "conf/user-database-conf.json");
 	 int initDataBase () override;
 	 bool  isDatabaseExist() override;
+	 void setPath(std::string configureFilePath) override;
 	 std::vector<int> isTableExist();
 	 std::string createEntity() override;
 	 std::string updateEntity() override;

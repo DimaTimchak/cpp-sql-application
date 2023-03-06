@@ -19,3 +19,16 @@ std::string CBDutils::loadConfig(std::string configureFilePath)
 	}
 	return confInternals;
 }
+
+std::string CBDutils::cutQuotes(std::string inputMessage)
+{
+	return inputMessage.substr(1, inputMessage.size() - 2);
+}
+
+int CBDutils::findCorespondingIndexInAppFromValueInMap(std::vector<std::string> valuesArr, crow::ci_map _map, std::string desiredKey)
+{
+	const std::pair<const std::string, std::string> para = *_map.find(desiredKey);
+	std::cout << para.second;
+
+	return 0;
+}

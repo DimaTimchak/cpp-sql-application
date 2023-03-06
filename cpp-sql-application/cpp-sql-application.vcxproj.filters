@@ -27,6 +27,9 @@
     <ClCompile Include="CBDutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BackendCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackendDataBase.h">
@@ -38,7 +41,7 @@
     <ClInclude Include="BackendCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BackendRouter .h">
+    <ClInclude Include="BackendRouter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CBDutils.h">

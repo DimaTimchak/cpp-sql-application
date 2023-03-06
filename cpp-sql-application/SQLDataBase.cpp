@@ -35,6 +35,10 @@ std::vector<std::vector<std::string>> SQLDataBase::_parseJsonTable(crow::json::w
 	return tempTableArr;
 }
 
+void SQLDataBase::setPath(std::string configureFilePath) {
+	_configureFilePath = configureFilePath;
+}
+
 std::string SQLDataBase::_getConfParam(std::vector<std::string>confParamString)
 {
 	std::string resultParam = "";

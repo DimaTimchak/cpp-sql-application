@@ -33,5 +33,6 @@
       "Video VARCHAR(20) NOT NULL",
       "email VARCHAR(30) NOT NULL"
     ]
-  ]
+  ],
+  "approvedOrigins":["localhost:80","localhost:5173","localhost:5174","sql-cpp-front"]
 }
