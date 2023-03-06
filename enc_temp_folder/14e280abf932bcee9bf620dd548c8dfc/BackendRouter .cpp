@@ -37,6 +37,7 @@ void BackendRouter::initAllRoutes()
         confInternals = tmp.str();
     }
     std::string responseData = (crow::json::wvalue(crow::json::load(confInternals))["dbTables"].dump());
+
     crow::response res;
     int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
     if (corespondingIndex != _avalibleOrigins.size()) {
@@ -47,7 +48,7 @@ void BackendRouter::initAllRoutes()
     return res;
             });
 
-
+    //Todo: must return all table entitys, later update filtering
     CROW_ROUTE(app, "/get/tableInfo").methods(crow::HTTPMethod::Get)
         ([&](const crow::request& req) {
         crow::response res;
@@ -63,14 +64,12 @@ void BackendRouter::initAllRoutes()
         res.body = 404;
     }
     else {
-
-        std::string responseBody = _corePtr->handleReadTableAttr(tableValue);
+        std::cout << "\nTable value: " << tableValue << "\n";
         
         res.body = tableValue;
         
     }
     return res;
-
             });
     //Gets an object to add to the database
     CROW_ROUTE(app, "/addEntity").methods(crow::HTTPMethod::Post)

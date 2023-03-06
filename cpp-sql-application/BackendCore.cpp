@@ -24,8 +24,15 @@ void BackendCore::launchBackends()
 	
 }
 
+std::string BackendCore::handleReadTableAttr(std::string tableName)
+{
+	//_backendDataBase->readEntity() 
+	//Todo: readEntity �� ����� �� �� ������ �� ������
+	//���� ������� ��������� ��� ����� ��� JSON ��'��� ���� � ����� ������ �� �������� ������
+ }
+ 
 void BackendCore::handleAddEntity(std::string requestData)
-{	
+{
 	crow::json::wvalue parsedTemp= (crow::json::load(requestData));
 	std::vector <std::string> NotNull, parsedKey;
 	std::vector <std::string> parsedvalue;
