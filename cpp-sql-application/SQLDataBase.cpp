@@ -1,5 +1,5 @@
 #include "SQLDataBase.h"
-
+#include "CBDutils.h"
 
 std::string SQLDataBase::_loadConfig()
 {
@@ -173,16 +173,22 @@ std::string SQLDataBase::readEntity(std::string TableName, int page)
 	int end = page*25;
 	
 	mysqlx::SqlResult resp = _sqlSession->sql(std::string(" SELECT ") + " * " + " FROM " + TableName + " WHERE " + "id<" + std::to_string(end) + " AND " + "id>" + std::to_string(start)).execute();
-	std::string entityAtributes = "[";
-
+	std::string entityAtributes = "";
+	
 	for (mysqlx::Row row : resp.fetchAll())
 	{
 		for (int i = 0; i < row.colCount(); i++)
 		{
+			if (i == 0) {
+				entityAtributes += "[";
+			}
+
+
 			if (row.colCount()-1 != i)
 			{
 				if (row[i].getType() == 2) // 2 = int64
 				{
+
 					entityAtributes += std::to_string((int)row[i]) + ",";
 				}
 				else if (row[i].getType() == 6) // 6 = STRING
@@ -194,15 +200,16 @@ std::string SQLDataBase::readEntity(std::string TableName, int page)
 			{
 				if (row[i].getType() == 2) // 2 = int64
 				{
-					entityAtributes += std::to_string((int)row[i]) + "]";
+					entityAtributes += std::to_string((int)row[i]) + "],";
 				}
 				else if (row[i].getType() == 6) // 6 = STRING
 				{
-					entityAtributes += "\"" + std::string(row[i]) + "\"" + "]";
+					entityAtributes +=  "\"" + std::string(row[i]) + "\"" + "],";
 				}
 			}
 		}
 	}	
+	entityAtributes[entityAtributes.size() - 1] = ' ';
 	return std::string(entityAtributes);
 }
 

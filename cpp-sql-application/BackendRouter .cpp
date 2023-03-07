@@ -64,13 +64,37 @@ void BackendRouter::initAllRoutes()
     else {
 
         std::string responseBody = _corePtr->handleReadTableAttr(tableValue);
-        
-        res.body = tableValue;
+        res.body = responseBody;
         
     }
     return res;
 
             });
+
+    CROW_ROUTE(app, "/get/userById").methods(crow::HTTPMethod::Get)
+        ([&](const crow::request& req) {
+        crow::response res;
+
+    //returns index of element taht equal to req header origin
+    int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
+    if (corespondingIndex != _avalibleOrigins.size()) {
+        res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
+    }
+
+    std::string tableValue = req.url_params.get("id");
+    if (tableValue == "") {
+        res.body = 404;
+    }
+    else {
+
+        std::string responseBody = _corePtr->handleReadTableAttr(tableValue);
+        res.body = responseBody;
+
+    }
+    return res;
+
+            });
+
     //Gets an object to add to the database
     CROW_ROUTE(app, "/addEntity").methods(crow::HTTPMethod::Post)
         ([&](const crow::request& req) {
