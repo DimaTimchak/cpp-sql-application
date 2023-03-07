@@ -24,12 +24,9 @@ void BackendCore::launchBackends()
 	
 }
 
-std::string BackendCore::handleReadTableAttr(std::string tableName)
+std::string BackendCore::handleReadTableAttr(std::string tableName, int page)
 {
-	//_backendDataBase->readEntity() 
-	//Todo: readEntity �� ����� �� �� ������ �� ������
-	//���� ������� ��������� ��� ����� ��� JSON ��'��� ���� � ����� ������ �� �������� ������
-	return std::string();
+	return std::string(_backendDataBase->readEntity(tableName, page));
  }
  
 void BackendCore::handleAddEntity(std::string requestData)

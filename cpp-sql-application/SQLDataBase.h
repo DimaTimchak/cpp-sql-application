@@ -21,7 +21,7 @@ public:
 	 void setPath(std::string configureFilePath) override;
 	 std::vector<int> isTableExist();
 	 void createEntity(std::string atribute, std::string value, std:: string TableName) override;
+	 std::string readEntity(std::string TableName, int page) override;
 	 std::string updateEntity() override;
 	 std::string deleteEntity() override;
-	 ~SQLDataBase();
 };

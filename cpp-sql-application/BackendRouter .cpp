@@ -42,7 +42,6 @@ void BackendRouter::initAllRoutes()
     if (corespondingIndex != _avalibleOrigins.size()) {
         res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
     }
-
     res.body = (std::move(responseData));
     return res;
             });

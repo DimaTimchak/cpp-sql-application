@@ -167,6 +167,45 @@ void SQLDataBase::createEntity(std::string atribute, std::string value, std::str
 	_sqlSession->sql (std::string("INSERT INTO ") + TableName + "(" + atribute + ")" + ("VALUE ") + "(" + value + ")").execute();	
 }
 
+std::string SQLDataBase::readEntity(std::string TableName, int page)
+{
+	int start = ((page * 25) - 25);
+	int end = page*25;
+	
+	mysqlx::SqlResult resp = _sqlSession->sql(std::string(" SELECT ") + " * " + " FROM " + TableName + " WHERE " + "id<" + std::to_string(end) + " AND " + "id>" + std::to_string(start)).execute();
+	std::string entityAtributes = "[";
+
+	for (mysqlx::Row row : resp.fetchAll())
+	{
+		for (int i = 0; i < row.colCount(); i++)
+		{
+			if (row.colCount()-1 != i)
+			{
+				if (row[i].getType() == 2) // 2 = int64
+				{
+					entityAtributes += std::to_string((int)row[i]) + ",";
+				}
+				else if (row[i].getType() == 6) // 6 = STRING
+				{
+					entityAtributes += "\"" + std::string(row[i]) + "\"" + ",";
+				}
+			}
+			else
+			{
+				if (row[i].getType() == 2) // 2 = int64
+				{
+					entityAtributes += std::to_string((int)row[i]) + "]";
+				}
+				else if (row[i].getType() == 6) // 6 = STRING
+				{
+					entityAtributes += "\"" + std::string(row[i]) + "\"" + "]";
+				}
+			}
+		}
+	}	
+	return std::string(entityAtributes);
+}
+
 std::string SQLDataBase::updateEntity()
 {
 	//_sqlSession->sql(std::string("UPDATE ") + /*"Table name "*/ + "SET " + /*"Atribute name"*/ + "= " + /*"Value in table "*/ + "WHERE " /*"Atribute name"*/ + "= " + /*"new value*/).execute();
@@ -177,8 +216,4 @@ std::string SQLDataBase::deleteEntity()
 {
 	//_sqlSession->sql(std::string("DELETE FROM ") + /*"NameTAble"*/ +"WHERE " + /*Atribute name*/ + "= " + /*value*/).execute();
 	return std::string();
-}
-
-SQLDataBase::~SQLDataBase()
-{
 }

@@ -18,5 +18,5 @@ public:
 	, int serverPort = 8080);
 	void launchBackends();
 	void handleAddEntity(std::string requestData);
-	std::string handleReadTableAttr(std::string tableName);
+	std::string handleReadTableAttr(std::string tableName, int page = 1);
 };

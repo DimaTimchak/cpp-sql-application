@@ -19,7 +19,7 @@ class BackendDataBase {
 	virtual void setPath(std::string configureFilePath)=0;
 	//std::string getDataBaseName() { return _dbName; } 
 	virtual void createEntity(std::string atribute, std::string value, std::string TableName) = 0; 
-	//virtual std::string readEntity() = 0;
+	virtual std::string readEntity(std::string TableName, int page) = 0;
 	virtual std::string updateEntity() = 0;
 	virtual std::string deleteEntity() = 0;
 	virtual ~BackendDataBase() {};
