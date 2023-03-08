@@ -28,6 +28,14 @@ std::string BackendCore::handleReadTableAttr(std::string tableName, int page)
 {
 	return std::string(_backendDataBase->readEntity(tableName, page));
  }
+
+void BackendCore::handleDeletEntity(std::string table, std::string entityId)
+{
+}
+
+void BackendCore::handleUpdateEntity(std::string requestData)
+{
+}
  
 void BackendCore::handleAddEntity(std::string requestData)
 {

@@ -19,4 +19,6 @@ public:
 	void launchBackends();
 	void handleAddEntity(std::string requestData);
 	std::string handleReadTableAttr(std::string tableName, int page = 1);
+	void handleDeletEntity(std::string table, std::string entityId);
+	void handleUpdateEntity(std::string requestData);
 };

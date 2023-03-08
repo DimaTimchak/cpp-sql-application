@@ -34,5 +34,5 @@
       "email VARCHAR(30) NOT NULL"
     ]
   ],
-  "approvedOrigins":["localhost:80","localhost:5174","http://localhost:5173","http://sql-cpp-front"]
+  "approvedOrigins":["http://localhost:5173","http://sql-cpp-front"]
 }

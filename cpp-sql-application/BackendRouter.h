@@ -18,5 +18,4 @@ public:
 	void setOriginsArr(std::vector<std::string> avalibleOrigins);
 	void setBaseResponseHeaders(std::vector<std::string> originsArr);
 	void runServer();
-	//friend int CBDutils::findCorespondingIndexInAppFromValueInMap(std::vector<std::string> valuesArr, crow::ci_map _map, std::string desiredKey);
 };

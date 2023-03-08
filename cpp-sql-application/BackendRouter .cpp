@@ -47,6 +47,30 @@ void BackendRouter::initAllRoutes()
             });
 
 
+    CROW_ROUTE(app, "/deleteEntity").methods(crow::HTTPMethod::Post)
+        ([&](const crow::request& req) {
+       // crow::json::wvalue x = crow::json::load(req.body);
+
+    crow::response res;
+    int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
+    if (corespondingIndex != _avalibleOrigins.size()) {
+        res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
+    }
+    
+    std::string tableName = req.url_params.get("table");
+    std::string entityId =  req.url_params.get("entityId");
+    if (tableName != "" && entityId !="") {
+        
+        res.body = (200);
+        _corePtr->handleDeletEntity(tableName, entityId);
+    }
+    else {
+        res.body = (400);
+    }
+
+    return res;
+            });
+
     CROW_ROUTE(app, "/get/tableInfo").methods(crow::HTTPMethod::Get)
         ([&](const crow::request& req) {
         crow::response res;
@@ -71,30 +95,6 @@ void BackendRouter::initAllRoutes()
 
             });
 
-    CROW_ROUTE(app, "/get/userById").methods(crow::HTTPMethod::Get)
-        ([&](const crow::request& req) {
-        crow::response res;
-
-    //returns index of element taht equal to req header origin
-    int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
-    if (corespondingIndex != _avalibleOrigins.size()) {
-        res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
-    }
-
-    std::string tableValue = req.url_params.get("id");
-    if (tableValue == "") {
-        res.body = 404;
-    }
-    else {
-
-        std::string responseBody = _corePtr->handleReadTableAttr(tableValue);
-        res.body = responseBody;
-
-    }
-    return res;
-
-            });
-
     //Gets an object to add to the database
     CROW_ROUTE(app, "/addEntity").methods(crow::HTTPMethod::Post)
         ([&](const crow::request& req) {
@@ -108,8 +108,26 @@ void BackendRouter::initAllRoutes()
     res.body = (200);
     if (!x.size())res.body = (400);
     std::string resp = (x.dump());
+    std::cout <<"\naaa:  " << resp<<"\n";
     _corePtr->handleAddEntity(resp);
     
+    return res;
+            });
+
+    CROW_ROUTE(app, "/updateEntity").methods(crow::HTTPMethod::Post)
+        ([&](const crow::request& req) {
+    crow::response res;
+    int corespondingIndex = CBDutils::findCorespondingIndexInAppFromValueInMap(_avalibleOrigins, req.headers, "Origin");
+    if (corespondingIndex != _avalibleOrigins.size()) {
+        res.add_header("Access-Control-Allow-Origin", _avalibleOrigins[corespondingIndex]);
+    }
+    res.body = (200);
+    crow::json::wvalue x = crow::json::load(req.body);
+    if (!x.size())res.body = (400);
+    std::string resp = (x.dump());
+    std::cout << "\naaa:  " << resp << "\n";
+    _corePtr->handleUpdateEntity(resp);
+
     return res;
             });
 }
