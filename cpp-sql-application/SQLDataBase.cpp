@@ -213,14 +213,12 @@ std::string SQLDataBase::readEntity(std::string TableName, int page)
 	return std::string(entityAtributes);
 }
 
-std::string SQLDataBase::updateEntity()
+void SQLDataBase::updateEntity(std::string tableName, std::string value, std::string id)
 {
-	//_sqlSession->sql(std::string("UPDATE ") + /*"Table name "*/ + "SET " + /*"Atribute name"*/ + "= " + /*"Value in table "*/ + "WHERE " /*"Atribute name"*/ + "= " + /*"new value*/).execute();
-	return std::string();
+	_sqlSession->sql(std::string("UPDATE ") + tableName + " SET " + value + " WHERE " + "id" + " = " + id).execute();
 }
 
-std::string SQLDataBase::deleteEntity()
+void SQLDataBase::deleteEntity(std::string table, std::string entityId)
 {
-	//_sqlSession->sql(std::string("DELETE FROM ") + /*"NameTAble"*/ +"WHERE " + /*Atribute name*/ + "= " + /*value*/).execute();
-	return std::string();
+	_sqlSession->sql(std::string("DELETE FROM ") + table +" WHERE " + " id " + " = " + entityId).execute();
 }

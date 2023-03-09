@@ -20,8 +20,8 @@ class BackendDataBase {
 	//std::string getDataBaseName() { return _dbName; } 
 	virtual void createEntity(std::string atribute, std::string value, std::string TableName) = 0; 
 	virtual std::string readEntity(std::string TableName, int page) = 0;
-	virtual std::string updateEntity() = 0;
-	virtual std::string deleteEntity() = 0;
+	virtual void updateEntity(std::string tableName,  std::string value, std::string id) = 0;
+	virtual void deleteEntity(std::string table, std::string entityId) = 0;
 	virtual ~BackendDataBase() {};
 };
 /*

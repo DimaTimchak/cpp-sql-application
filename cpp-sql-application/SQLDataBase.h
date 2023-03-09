@@ -22,6 +22,6 @@ public:
 	 std::vector<int> isTableExist();
 	 void createEntity(std::string atribute, std::string value, std:: string TableName) override;
 	 std::string readEntity(std::string TableName, int page) override;
-	 std::string updateEntity() override;
-	 std::string deleteEntity() override;
+	 void updateEntity(std::string tableName,  std::string value, std::string id) override;
+	 void deleteEntity(std::string table, std::string entityId) override;
 };

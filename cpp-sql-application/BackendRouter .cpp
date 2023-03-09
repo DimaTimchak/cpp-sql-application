@@ -125,7 +125,6 @@ void BackendRouter::initAllRoutes()
     crow::json::wvalue x = crow::json::load(req.body);
     if (!x.size())res.body = (400);
     std::string resp = (x.dump());
-    std::cout << "\naaa:  " << resp << "\n";
     _corePtr->handleUpdateEntity(resp);
 
     return res;

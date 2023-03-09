@@ -31,10 +31,44 @@ std::string BackendCore::handleReadTableAttr(std::string tableName, int page)
 
 void BackendCore::handleDeletEntity(std::string table, std::string entityId)
 {
+	_backendDataBase->deleteEntity(table, entityId);
 }
 
 void BackendCore::handleUpdateEntity(std::string requestData)
 {
+	std::string tableName, value = "", id;
+	crow::json::wvalue parsedTemp = (crow::json::load(requestData));
+	std::vector <std::string> parsedAtribute, parsedValue, NotNull;
+
+	tableName = CBDutils::cutQuotes(parsedTemp[0].dump());
+
+	for (int i = 1; i < parsedTemp.size(); i++)
+	{
+		if (std::string(parsedTemp[i].dump()) != "null") NotNull.push_back(parsedTemp[i].dump());
+	}
+
+	id = CBDutils::GetStringBeforeSpace(crow::json::load(NotNull[0])["what"].s());  // Get "ID-value"
+
+	for (int i = 0; i < NotNull.size(); i++)
+	{
+		parsedAtribute.push_back(CBDutils::GetStringBeforeSpace(crow::json::load(NotNull[i])["who"].s()));
+		parsedValue.push_back(CBDutils::GetStringBeforeSpace(crow::json::load(NotNull[i])["what"].s()));
+	}
+
+	parsedAtribute.erase(parsedAtribute.begin());	//Delete "ID"
+	parsedValue.erase(parsedValue.begin());			//Delete "ID-value"
+
+	for(int i = 0; i < parsedAtribute.size(); i++ )
+	{
+			if (i != parsedAtribute.size() - 1)
+			{
+				value += parsedAtribute[i] + " = " + "\"" + parsedValue[i] + "\"" + ", ";
+			}
+			else
+				value += parsedAtribute[i] + " = " + "\"" + parsedValue[i] +"\"";
+	}
+	
+	_backendDataBase->updateEntity(tableName, value, id);
 }
  
 void BackendCore::handleAddEntity(std::string requestData)
